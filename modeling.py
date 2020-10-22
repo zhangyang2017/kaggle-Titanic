@@ -5,13 +5,23 @@ Created on Wed Oct 21 21:37:21 2020
 
 @author: yangzhang
 """
+import pandas as pd
+
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import mean_absolute_error, accuracy_score
+from sklearn.metrics import classification_report, confusion_matrix
+
+train = pd.read_csv('./data/train_ready.csv')
+test = pd.read_csv('./data/test_ready.csv')
+
+
 
 #############################
 #### logistic regression ####
 #############################
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import mean_absolute_error, accuracy_score
-from sklearn.metrics import classification_report, confusion_matrix
+
+
 
 logR = LogisticRegression()
 logR.fit(train_X,train_y)
