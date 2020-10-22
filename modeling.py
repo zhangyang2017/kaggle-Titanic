@@ -31,4 +31,4 @@ test_preds = logR.predict(X_test_scale)
 #Submission
 output = pd.DataFrame({'PassengerId': testids,
                        'Survived': test_preds})
-output.to_csv('submission_logisticR.csv', index=False)
+output.to_csv('./submission/submission_logisticR.csv', index=False)
