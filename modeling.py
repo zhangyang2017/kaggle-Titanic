@@ -27,26 +27,25 @@ from sklearn.model_selection import GridSearchCV
 ##########################################################
 
 ## prepping data for training
-train = pd.read_csv('./data/train_ready.csv')
-test = pd.read_csv('./data/test_ready.csv')
+train = pd.read_csv('./data/train_ready2.csv')
+test = pd.read_csv('./data/test_ready2.csv')
 testids = test['PassengerId'].copy()
 
-train = train.drop(['PassengerId', 'Age', 'Fare', 'SibSp', 'Parch'], axis = 1)
-test = test.drop(['PassengerId', 'Age', 'Fare', 'SibSp', 'Parch'], axis = 1)
+train = train.drop(['PassengerId', 'normFare', 'Cabin', 'SibSp', 'Parch'], axis = 1)
+test = test.drop(['PassengerId', 'normFare', 'Cabin', 'SibSp', 'Parch'], axis = 1)
 
 y = train['Survived'].copy()
 X = train.drop('Survived', axis = 1)
 
-train2 = train.drop(['Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F', 'Cabin_G', 'Cabin_T'], axis = 1)
-test2 = test.drop(['Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F', 'Cabin_G', 'Cabin_T'], axis = 1)
+#train2 = train.drop(['Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F', 'Cabin_G', 'Cabin_T'], axis = 1)
+#test2 = test.drop(['Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F', 'Cabin_G', 'Cabin_T'], axis = 1)
 
-X2 = train2.drop('Survived', axis = 1)
+#X2 = train2.drop('Survived', axis = 1)
 ## scaling
 std_scale = StandardScaler()
 X_scale = std_scale.fit_transform(X)
-X2_scale = std_scale.fit_transform(X2)
 test_scale = std_scale.transform(test)
-test2_scale = std_scale.transform(test2)
+
 ## split
 train_X, val_X, train_y, val_y = train_test_split(X_scale, y, random_state = 0)
 
@@ -95,9 +94,13 @@ print(cv.mean()) #0.805
 ############ SVM ############
 #############################
 svc = SVC(probability = True)
-cv = cross_val_score(svc, train_X, train_y, cv=5)
+cv = cross_val_score(svc, X_scale, y, cv=5)
 print(cv)
 print(cv.mean()) #0.821
+model = svc.fit(X_scale, y)
+pred=model.predict(test_scale)
+output=pd.DataFrame({'PassengerId':testids,'Survived':pred})
+output.to_csv('./submission/svm_submissionNew.csv', index=False)
 
 ##another way
 
@@ -105,14 +108,14 @@ svc=make_pipeline(StandardScaler(),SVC(random_state=1))
 r=[0.0001,0.001,0.1,1,10,50,100]
 PSVM=[{'svc__C':r, 'svc__kernel':['linear']},
       {'svc__C':r, 'svc__gamma':r, 'svc__kernel':['rbf']}]
-GSSVM=GridSearchCV(estimator=svc, param_grid=PSVM, scoring='accuracy', cv=5)
+GSSVM=GridSearchCV(estimator=svc, param_grid=PSVM, scoring='accuracy', cv=2)
 scores_svm=cross_val_score(GSSVM, X.astype(float), y, scoring='accuracy', cv=5)
 np.mean(scores_svm)
 
-model=GSSVM.fit(X2, y)
-pred=model.predict(test2)
+model=GSSVM.fit(X, y)
+pred=model.predict(test)
 output=pd.DataFrame({'PassengerId':testids,'Survived':pred})
-output.to_csv('./submission/svm_submission4.csv', index=False)
+output.to_csv('./submission/svm_submission.csv', index=False)
 
 #############################
 ########## XGBoost ##########
@@ -196,10 +199,53 @@ pd.DataFrame(confusion_matrix(val_y,y_pred),\
     
     
 
+### random forest
+# create param grid object 
+forrest_params = dict(     
+    max_depth = [n for n in range(9, 14)],     
+    min_samples_split = [n for n in range(4, 11)], 
+    min_samples_leaf = [n for n in range(2, 5)],     
+    n_estimators = [n for n in range(10, 60, 10)],
+)
+
+# instantiate Random Forest model
+forrest = RandomForestClassifier()
+forest_cv = GridSearchCV(estimator=forrest, param_grid=forrest_params, cv=5) 
+forest_cv.fit(X, y)
+
+print("Best score: {}".format(forest_cv.best_score_))
+print("Optimal params: {}".format(forest_cv.best_estimator_))
+
+forrest_pred = forest_cv.predict(test)
+output=pd.DataFrame({'PassengerId':testids,'Survived':forrest_pred})
+output.to_csv('./submission/randomForest.csv', index=False)
 
 
+##Catboost
+import catboost as cb
+parameters = {
+    'iterations': [5, 10, 15, 20, 25, 50, 100],
+    'learning_rate': [0.01, 0.05, 0.1],
+    'depth': [3, 5, 7, 9, 11, 13],
+}
 
+model_catboost = cb.CatBoostClassifier(
+    verbose=False,
+)
 
+model_catboost = GridSearchCV(
+    model_catboost, 
+    parameters, 
+    cv=5,
+    scoring='accuracy',
+)
 
+model_catboost.fit(X, y)
 
-
+submission = pd.DataFrame(
+    { 
+        'PassengerId': testids, 
+        'Survived': model_catboost.predict(test).astype(int)
+    }
+)
+submission.to_csv("./submission/submission_catboost.csv", index=False)
