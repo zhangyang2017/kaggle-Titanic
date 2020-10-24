@@ -7,6 +7,8 @@ Created on Wed Oct 21 21:37:21 2020
 """
 import pandas as pd
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
@@ -19,7 +21,7 @@ from sklearn.svm import SVC
 from xgboost import XGBClassifier
 from sklearn.ensemble import VotingClassifier
 from sklearn.pipeline import make_pipeline
-#from sklearn.metrics import mean_absolute_error, accuracy_score
+from sklearn.metrics import mean_absolute_error, accuracy_score
 #from sklearn.metrics import classification_report, confusion_matrix
 
 from sklearn.model_selection import GridSearchCV 
@@ -27,29 +29,160 @@ from sklearn.model_selection import GridSearchCV
 ##########################################################
 
 ## prepping data for training
-train = pd.read_csv('./data/train_ready2.csv')
-test = pd.read_csv('./data/test_ready2.csv')
+train = pd.read_csv('./data/train_ready3.csv')
+test = pd.read_csv('./data/test_ready3.csv')
 testids = test['PassengerId'].copy()
 
-train = train.drop(['PassengerId', 'normFare', 'Cabin', 'SibSp', 'Parch'], axis = 1)
-test = test.drop(['PassengerId', 'normFare', 'Cabin', 'SibSp', 'Parch'], axis = 1)
+
+
+train = train.drop(['PassengerId', 'SibSp', 'Cabin', 'genTitle', 'FamilySize_1',
+                    'Pclass_2', 'Pclass_3', 'age_group_adult', 'age_group_elderly',
+                    'age_group_middleAged', 'age_group_senior', 'age_group_teenager',
+                    'age_group_toddler', 'FamilySize_11', 'FamilySize_8',
+                    'FamilySize_2', 'FamilySize_3', 'FamilySize_4',
+                    'FamilySize_7', 'FamilySize_6', 'FamilySize_5', 'normFare'], axis = 1)
+test = test.drop(['PassengerId', 'SibSp', 'Cabin', 'genTitle', 'FamilySize_1',
+                  'FamilySize_2', 'FamilySize_3', 'FamilySize_4',
+                    'Pclass_2', 'Pclass_3', 'age_group_adult', 'age_group_elderly',
+                    'age_group_middleAged', 'age_group_senior', 'age_group_teenager',
+                    'age_group_toddler', 'FamilySize_11', 'FamilySize_8',
+                    'FamilySize_7', 'FamilySize_6', 'FamilySize_5', 'normFare'], axis = 1)
 
 y = train['Survived'].copy()
 X = train.drop('Survived', axis = 1)
 
-#train2 = train.drop(['Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F', 'Cabin_G', 'Cabin_T'], axis = 1)
-#test2 = test.drop(['Cabin_B', 'Cabin_C', 'Cabin_D', 'Cabin_E', 'Cabin_F', 'Cabin_G', 'Cabin_T'], axis = 1)
+#X = pd.get_dummies(X,columns=['Pclass', 'age_group', 'Embarked', 'FamilySize'], drop_first=False)
 
-#X2 = train2.drop('Survived', axis = 1)
+## split
+train_X, val_X, train_y, val_y = train_test_split(X, y, random_state = 0)
+
+#creating trial RFC model
+model_try = RandomForestClassifier(n_estimators=400, max_depth=5, random_state=42)
+model_try.fit(train_X, train_y)
+preds = model_try.predict(val_X)
+print(accuracy_score(val_y, preds))
+
+#feature importance of the algorithm
+pd.Series(model_try.feature_importances_, index = train_X.columns).nlargest(12).plot(kind = 'barh',
+                            figsize = (10, 10),title = 'Feature importance from Random Forest').invert_yaxis()
+
+
+model = RandomForestClassifier(n_estimators=300, max_depth=5, random_state=42)
+model.fit(X, y)
+predictions = model.predict(test)
+output = pd.DataFrame({'PassengerId': testids, 'Survived': predictions})
+output.to_csv('./submission/submissionRF2.csv', index=False)
+
+## best thus far.
+
+
+
+
+
+
+
+
+rf= RandomForestClassifier(random_state=1)
+
+# grid searh to choose the best (combination of) hyperparameters
+pg_rf={'n_estimators': [100,200,400],'max_depth': [20,40,50,60]}
+
+gs_rf=GridSearchCV(estimator= rf,
+               param_grid= pg_rf,
+               scoring='accuracy',
+               cv=2)
+
+# nested cross validation combining grid search (inner loop) and k-fold cv (outter loop)
+gs_rf_scores = cross_val_score(gs_rf, X, y, cv=5,scoring='accuracy', n_jobs=-1)
+
+# fit, and fit with best estimator
+gs_rf.fit(X, y)
+gs_rf_best=gs_rf.best_estimator_
+gs_rf_best.fit(X, y)
+
+print('Train Accuracy:   {0:.1f}%'.format(gs_rf.score(X, y)*100))
+print('CV Mean Accuracy: {0:.1f}%'.format(np.mean(gs_rf_scores)*100))
+print('Test Accuracy:    {0:.1f}%'.format(gs_rf.score(xtest, ytest)*100))
+
+
+gs_rf_best.fit(X, y)
+predictions = gs_rf_best.predict(test)
+output = pd.DataFrame({'PassengerId': testids, 'Survived': predictions})
+output.to_csv('./submission/submissionRF3.csv', index=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def correlation_heatmap(df, method):
+    _ , ax = plt.subplots(figsize =(18, 16))
+    colormap = sns.diverging_palette(220, 10, as_cmap = True)
+    
+    _ = sns.heatmap(
+        df.corr(method=method),
+        cmap = colormap,
+        square=True, 
+        annot=True, 
+        annot_kws={'fontsize':9 }
+    )
+    
+    plt.title('Correlation Matrix', y=1.05, size=15)
+    
+    
+plot = correlation_heatmap(X, 'pearson')
+#plt.savefig('all_fetures.pdf')
+#plt.show()
+
+##drop low correlation features
+train = train.drop(['Age', 'FamilySize_1', 'FamilySize_2', 'FamilySize_3', 'FamilySize_5', 'FamilySize_6', 'FamilySize_7', 'FamilySize_8',
+                    'FamilySize_11', 'Pclass_2', 'Embarked_Q', 'age_group_adult', 'age_group_child',
+                    'age_group_elderly', 'age_group_middleAged', 'age_group_senior', 'age_group_teenager',
+                    'age_group_toddler', 'Pclass_3'], axis = 1)
+test = test.drop(['Age', 'FamilySize_1', 'FamilySize_2', 'FamilySize_3', 'FamilySize_5', 'FamilySize_6', 'FamilySize_7', 'FamilySize_8',
+                    'FamilySize_11', 'Pclass_2', 'Embarked_Q', 'age_group_adult', 'age_group_child',
+                    'age_group_elderly', 'age_group_middleAged', 'age_group_senior', 'age_group_teenager',
+                    'age_group_toddler', 'Pclass_3'], axis = 1)
+
+correlation_heatmap(train, 'pearson')
+
+
+
+svc=make_pipeline(StandardScaler(),SVC(random_state=1))
+r=[0.0001,0.001,0.1,1,10,50,100]
+PSVM=[{'svc__C':r, 'svc__kernel':['linear']},
+      {'svc__C':r, 'svc__gamma':r, 'svc__kernel':['rbf']}]
+GSSVM=GridSearchCV(estimator=svc, param_grid=PSVM, scoring='accuracy', cv=2)
+scores_svm=cross_val_score(GSSVM, X.astype(float), y, scoring='accuracy', cv=5)
+np.mean(scores_svm)
+
+model=GSSVM.fit(X, y)
+pred=model.predict(test)
+output=pd.DataFrame({'PassengerId':testids,'Survived':pred})
+output.to_csv('./submission/svm_submission2.csv', index=False)
+
+
+
+
+
+
+
 ## scaling
 std_scale = StandardScaler()
 X_scale = std_scale.fit_transform(X)
 test_scale = std_scale.transform(test)
 
-## split
-train_X, val_X, train_y, val_y = train_test_split(X_scale, y, random_state = 0)
 
-train_X2, val_X2, train_y2, val_y2 = train_test_split(X2_scale, y, random_state = 0)
 #############################
 ######## naive Bayes ########
 #############################
@@ -174,9 +307,11 @@ submission_xgb = pd.DataFrame(data=xgb_submission)
 submission_xgb.to_csv('./submission/xgb_submission.csv', index=False)
 
 
+model = RandomForestClassifier(n_estimators=500, max_depth=5, random_state=42)
+model.fit(train_X, train_y)
+predictions = model.predict(val_X)
 
-
-
+print(accuracy_score(val_y, predictions))
 
 
 #######################################################################################
