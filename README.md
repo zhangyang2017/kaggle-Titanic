@@ -5,7 +5,7 @@
 Table of contents
 - [Overview](#1)
 - [Workflow](#2)
-- [One more thought](#3)
+- [Afterthoughts](#3)
 - [Resources that helped me learn](#4)
 
 
@@ -33,6 +33,9 @@ Project duration: 2020/10/21 - 2020/10/23
 - Model validation
 - prediction
 
+## Afterthoughts <a id="3"></a>
+https://matloff.wordpress.com/2015/09/29/unbalanced-data-is-a-problem-no-balanced-data-is-worse/
+https://elitedatascience.com/imbalanced-classes
 
 ## Resources <a id="4"></a>
 
@@ -52,7 +55,6 @@ https://www.kaggle.com/startupsci/titanic-data-science-solutions
 https://www.kaggle.com/ash316/eda-to-prediction-dietanic
 https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic
 
-https://matloff.wordpress.com/2015/09/29/unbalanced-data-is-a-problem-no-balanced-data-is-worse/
-https://elitedatascience.com/imbalanced-classes
+
 
 
