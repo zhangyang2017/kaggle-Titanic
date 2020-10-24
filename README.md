@@ -17,6 +17,7 @@ Project duration: 2020/10/21 - 2020/10/23
 ## Workflow <a id="2"></a>
 - EDA
   - data visualization, feature relationship exploration
+    - `histogram` `correlation heatmap` `kernal density estimation plot`
   - missing data imputation
     - This is the part where I can be creative. I was inspired by [this notebook][1] that instead of filling missing values with mean, median or mode, I can try a few more things. For example, I have two missing values under `Embarked` feature. Both of them paid 80$ for their first class tickets.
       ```
@@ -26,9 +27,10 @@ Project duration: 2020/10/21 - 2020/10/23
       Using visualization, I can actually see that at C, the median Fair people paid for first class ticket is closer to 80. So replacing the two missing values with 'C' seems a reasonable guess. And a lot more fun :stuck_out_tongue:.
       ![temp2](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp2.jpg)
     - `Age` feature had a lot more missing values. I never thought I can actually build a model to predict those values on other features such as titles and how much they paid for their tickets. Is it guaranteed more accurate than just replacing with mean? Probably not, but very cool!
-- feature engineering
-- model training
-- model validation
+- Feature engineering
+- Model training
+  - the idea of **benchmark**
+- Model validation
 - prediction
 
 
@@ -36,9 +38,11 @@ Project duration: 2020/10/21 - 2020/10/23
 
 [1]: <https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations> (A Statistical Analysis & ML workflow of Titanic by Masum Rumi)
 
+1. [A Statistical Analysis & ML workflow of Titanic](https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations) by Masum Rumi
+2. [Titanic Project Example Walk Through](https://www.kaggle.com/kenjee/titanic-project-example/comments) by Ken Jee
 
 
-https://www.kaggle.com/kenjee/titanic-project-example/comments
+
 
 https://www.kaggle.com/startupsci/titanic-data-science-solutions
 https://www.kaggle.com/ash316/eda-to-prediction-dietanic
