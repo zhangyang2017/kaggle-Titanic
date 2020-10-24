@@ -60,13 +60,13 @@ https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/43453
 1. [Hyperparameter Tuning the Random Forest in Python](https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74) by Will Koehrsen
 2. [A Statistical Analysis & ML workflow of Titanic](https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations) by Masum Rumi
 3. [Titanic Project Example Walk Through](https://www.kaggle.com/kenjee/titanic-project-example/comments) by Ken Jee
+4. [EDA To Prediction (DieTanic)](https://www.kaggle.com/ash316/eda-to-prediction-dietanic) by Ashwini Swain
 
 
 
 
 https://www.kaggle.com/goldens/classification-review-with-python
 
-https://www.kaggle.com/ash316/eda-to-prediction-dietanic
 https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic
 https://www.kaggle.com/pavlofesenko/extending-titanic-dataset-using-wikipedia
 https://towardsdatascience.com/predicting-the-survival-of-titanic-passengers-30870ccc7e8
