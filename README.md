@@ -65,7 +65,7 @@ https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/43453
 
 
 https://www.kaggle.com/goldens/classification-review-with-python
-https://www.kaggle.com/startupsci/titanic-data-science-solutions
+
 https://www.kaggle.com/ash316/eda-to-prediction-dietanic
 https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic
 https://www.kaggle.com/pavlofesenko/extending-titanic-dataset-using-wikipedia
