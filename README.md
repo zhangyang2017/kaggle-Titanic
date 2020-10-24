@@ -40,9 +40,10 @@ Project duration: 2020/10/21 - 2020/10/23
 [2]: <https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations> (A Statistical Analysis & ML workflow of Titanic by Masum Rumi)
 
 
-1. [A Statistical Analysis & ML workflow of Titanic](https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations) by Masum Rumi
-2. [Titanic Project Example Walk Through](https://www.kaggle.com/kenjee/titanic-project-example/comments) by Ken Jee
-3. [Hyperparameter Tuning the Random Forest in Python](https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74) by Will Koehrsen
+1. [Hyperparameter Tuning the Random Forest in Python](https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74) by Will Koehrsen
+2. [A Statistical Analysis & ML workflow of Titanic](https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations) by Masum Rumi
+3. [Titanic Project Example Walk Through](https://www.kaggle.com/kenjee/titanic-project-example/comments) by Ken Jee
+
 
 
 
