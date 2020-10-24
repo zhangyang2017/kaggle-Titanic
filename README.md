@@ -18,16 +18,24 @@ Project duration: 2020/10/21 - 2020/10/23
 - EDA
   - data visualization, feature relationship exploration
   - missing data imputation
-    - This is the part where I can be creative. I was inspired by [this notebook][1] that I can actually build a model to predict missing age values on features such as their titles and how much they paid for their tickets. I thought this is very cool.
+    - This is the part where I can be creative. I was inspired by [this notebook][1] that instead of filling missing values with mean, median or mode, I can try a few more things. For example, I have two missing values under `Embarked` feature. Both of them paid 80$ for their first class tickets.
+      ```
+      X[X.Embarked.isnull()]
+      ```
+      ![temp](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp.jpg)
+      Using visualization, I can actually see that the median Fair people paid for first class ticket is around 80. So replacing the two missing values with 'C' seems a reasonable guess. And a lot more fun :grin:.
+      ![temp2](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp2.jpg)
+      
+      I can actually build a model to predict missing age values on features such as their titles and how much they paid for their tickets. I thought this is very cool.
 - feature engineering
 - model training
 - model validation
 - prediction
 
 
-## Resources <a id="3"></a>
+## Resources <a id="4"></a>
 
-[1]: <https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations> "Kaggle Notebook"
+[1]: <https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations> (A Statistical Analysis & ML workflow of Titanic by Masum Rumi)
 
 
 
