@@ -1,5 +1,7 @@
 # Repo for the Kaggle ["Titanic: machine learning from disaster"](https://www.kaggle.com/c/titanic/overview)
 
+> #classification
+
 Table of contents
 - [Overview](#1)
 - [Workflow](#2)
@@ -8,7 +10,7 @@ Table of contents
 
 
 ## Overview <a id="1"></a>
-Ah the famous Titanic Kaggle competition. I did not expect to have this much fun working through this project, honestly. In this classic classification problem, I got to try out a lot of algorithms, including `naive bayes`, `logistic regression`, `decision tree`, `KNN`, `random forest`, `SVM`, `XGBoost`, `soft voting classifier`. For me, `random forest` produced the highest accuracy at predicting the test dataset (78%). I did spend hours trying to fine-tune my algorithm, as well as engineering new features and dropping low-impact features. Nothing I tried really helped with increasing the accuracy.
+Ah the famous Titanic Kaggle competition. I did not expect to have this much fun working through this project, honestly. In this classic classification problem, I got to try out a lot of algorithms, including `naive bayes`, `logistic regression`, `decision tree`, `KNN`, `random forest`, `SVM`, `XGBoost`, `soft voting classifier`. For me, `random forest` produced the highest accuracy at predicting the test dataset (78%). I did spend hours trying to increase the accuracy of my algorithm. I tried fine-tuning my algorithm, engineering new and dropping low-impact features. Nothing I tried really helped with increasing the accuracy :sweat_smile:.
 
 Project duration: 2020/10/21 - 2020/10/23
 
