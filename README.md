@@ -18,10 +18,18 @@ Project duration: 2020/10/21 - 2020/10/23
 
 ## Workflow <a id="2"></a>
 - EDA
+  - some numerical feature (training set)
+    - 891 samples, representing 40% (891 in 2224) of passengers boarded the Titanic;
+    - survival rate ~ 38% (actual survival rate on Titanic is 32%)
+    - the majority of passengers traveled alone (~75%)
   - data visualization, feature relationship exploration
-    - `histogram` `correlation heatmap` `kernal density estimation plot`
-  - missing data imputation
-    - This is the part where I can be creative. I was inspired by [this notebook][2] that instead of filling missing values with mean, median or mode, I can try a few more things. For example, I have two missing values under `Embarked` feature. Both of them paid 80$ for their first class tickets.
+    - `pivot tables` for quick assumptions
+    - `histogram` `correlation heatmap` `kernal density estimation plot` to confirm assumptions
+    - which features might contribute significantly to the model
+      - ![after some feature engineering](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/all_fetures.png)
+  - data wrangling
+    - missing data imputation
+      - This is the part where I can be creative. I was inspired by [this notebook][2] that instead of filling missing values with mean, median or mode, I can try a few more things. For example, I have two missing values under `Embarked` feature. Both of them paid 80$ for their first class tickets.
       ```
       X[X.Embarked.isnull()]
       ```
