@@ -10,15 +10,26 @@ Table of contents
 
 
 ## Overview <a id="1"></a>
-Ah the famous Titanic Kaggle competition. I did not expect to have this much fun working through this project, honestly. In this classic classification problem, I got to try out a lot of algorithms, including `naive bayes`, `logistic regression`, `decision tree`, `KNN`, `random forest`, `SVM`, `XGBoost`, `soft voting classifier`. For me, `random forest` produced the highest accuracy at predicting the test dataset (78%). I did spend hours trying to increase the accuracy of my algorithm. I tried fine-tuning my algorithm, engineering new and dropping low-impact features. Nothing I tried really helped with increasing the accuracy :sweat_smile:.
+Ah the famous Titanic Kaggle competition. I did not expect to have this much fun working through this project, honestly. In this classic classification problem, I got to try out a lot of algorithms, including `naive bayes`, `logistic regression`, `decision tree`, `KNN`, `random forest`, `SVM`, `XGBoost`, `soft voting classifier`. For me, `random forest` produced the highest accuracy at predicting the test dataset (78%). I did spend hours trying to increase the accuracy of my algorithm. I tried hyperparameter tuning, engineering new and dropping low-impact features. Nothing I tried really helped with increasing the accuracy :sweat_smile:. Although, I am not good at fine-tuning or feature engineering yet.
 
 Project duration: 2020/10/21 - 2020/10/23
 
 ## Workflow <a id="2"></a>
+- EDA
+  - data visualization, feature relationship exploration
+  - missing data imputation
+    - I was inspired by [this notebook][1]
+- feature engineering
+- model training
+- model validation
+- prediction
 
-----
-resources:
-https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations
+
+## Resources <a id="3"></a>
+
+[1]: <https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations> "Kaggle Notebook"
+
+
 
 https://www.kaggle.com/kenjee/titanic-project-example/comments
 
