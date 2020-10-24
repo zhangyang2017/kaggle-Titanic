@@ -1,7 +1,7 @@
 # Repo for the Kaggle "Titanic: machine learning from disaster"
 
 
-:open_book:Table of contents
+:open_book:
 - [Problem definition](#0)
 - [Overview](#1)
 - [Workflow](#2)
@@ -9,7 +9,7 @@
 - [Resources that helped me learn](#4)
 
 ## Problem definition <a id="0"></a>
-Train a :label:classification model to determine whether or not a passenger survived in the test set based on the survival information in the training set. More details are described :point_right: [here](https://www.kaggle.com/c/titanic).
+Train a :label: classification model to determine whether or not a passenger survived in the test set based on the survival information in the training set. More details are described :point_right: [here](https://www.kaggle.com/c/titanic).
 
 ## Overview <a id="1"></a>
 Ah the famous Titanic Kaggle competition. I did not expect to have this much fun working through this project, honestly. In this classic classification problem, I got to try out a lot of algorithms, including `naive bayes`, `logistic regression`, `decision tree`, `KNN`, `random forest`, `SVM`, `XGBoost`, `soft voting classifier`. For me, `random forest` produced the highest accuracy at predicting the test dataset (78%). I did spend hours trying to increase the accuracy of my algorithm. I tried [hyperparameter tuning][1], engineering new and dropping low-impact features. Nothing I tried really helped with increasing the accuracy :sweat_smile:. Although, I am not good at fine-tuning or feature engineering yet.
