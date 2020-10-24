@@ -18,7 +18,7 @@ Project duration: 2020/10/21 - 2020/10/23
 - EDA
   - data visualization, feature relationship exploration
   - missing data imputation
-    - I was inspired by [this notebook][1]
+    - This is the part where I can be creative. I was inspired by [this notebook][1] that I can actually build a model to predict missing age values on features such as their titles and how much they paid for their tickets. I thought this is very cool.
 - feature engineering
 - model training
 - model validation
