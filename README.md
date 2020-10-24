@@ -23,10 +23,9 @@ Project duration: 2020/10/21 - 2020/10/23
       X[X.Embarked.isnull()]
       ```
       ![temp](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp.jpg)
-      Using visualization, I can actually see that the median Fair people paid for first class ticket is around 80. So replacing the two missing values with 'C' seems a reasonable guess. And a lot more fun :grin:.
+      Using visualization, I can actually see that at C, the median Fair people paid for first class ticket is closer to 80. So replacing the two missing values with 'C' seems a reasonable guess. And a lot more fun :stuck_out_tongue:.
       ![temp2](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp2.jpg)
-      
-      I can actually build a model to predict missing age values on features such as their titles and how much they paid for their tickets. I thought this is very cool.
+    - `Age` feature had a lot more missing values. I never thought I can actually build a model to predict those values on other features such as titles and how much they paid for their tickets. Very cool!
 - feature engineering
 - model training
 - model validation
