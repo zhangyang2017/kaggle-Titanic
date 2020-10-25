@@ -29,24 +29,15 @@ from sklearn.model_selection import GridSearchCV
 ##########################################################
 
 ## prepping data for training
-train = pd.read_csv('./data/train_ready3.csv')
-test = pd.read_csv('./data/test_ready3.csv')
+train = pd.read_csv('./data/train_final.csv')
+test = pd.read_csv('./data/test_final.csv')
 testids = test['PassengerId'].copy()
 
 
 
-train = train.drop(['PassengerId', 'SibSp', 'Cabin', 'genTitle', 'FamilySize_1',
-                    'Pclass_2', 'Pclass_3', 'age_group_adult', 'age_group_elderly',
-                    'age_group_middleAged', 'age_group_senior', 'age_group_teenager',
-                    'age_group_toddler', 'FamilySize_11', 'FamilySize_8',
-                    'FamilySize_2', 'FamilySize_3', 'FamilySize_4',
-                    'FamilySize_7', 'FamilySize_6', 'FamilySize_5', 'normFare'], axis = 1)
-test = test.drop(['PassengerId', 'SibSp', 'Cabin', 'genTitle', 'FamilySize_1',
-                  'FamilySize_2', 'FamilySize_3', 'FamilySize_4',
-                    'Pclass_2', 'Pclass_3', 'age_group_adult', 'age_group_elderly',
-                    'age_group_middleAged', 'age_group_senior', 'age_group_teenager',
-                    'age_group_toddler', 'FamilySize_11', 'FamilySize_8',
-                    'FamilySize_7', 'FamilySize_6', 'FamilySize_5', 'normFare'], axis = 1)
+train = train.drop(['PassengerId'], axis = 1)
+test = test.drop(['PassengerId'], axis = 1)
+
 
 y = train['Survived'].copy()
 X = train.drop('Survived', axis = 1)
@@ -71,7 +62,7 @@ model = RandomForestClassifier(n_estimators=300, max_depth=5, random_state=42)
 model.fit(X, y)
 predictions = model.predict(test)
 output = pd.DataFrame({'PassengerId': testids, 'Survived': predictions})
-output.to_csv('./submission/submissionRF2.csv', index=False)
+output.to_csv('./submission/submissionRFnew.csv', index=False)
 
 ## best thus far.
 
@@ -298,13 +289,13 @@ param_grid = {
 }
 
 clf_xgb = GridSearchCV(xgb, param_grid = param_grid, cv = 5, verbose = True, n_jobs = -1)
-best_clf_xgb = clf_xgb.fit(X_scale, y)
+best_clf_xgb = clf_xgb.fit(X, y)
 clf_performance(best_clf_xgb,'XGB')
 
-y_hat_xgb = best_clf_xgb.best_estimator_.predict(test_scale).astype(int)
+y_hat_xgb = best_clf_xgb.best_estimator_.predict(test).astype(int)
 xgb_submission = {'PassengerId': testids, 'Survived': y_hat_xgb}
 submission_xgb = pd.DataFrame(data=xgb_submission)
-submission_xgb.to_csv('./submission/xgb_submission.csv', index=False)
+submission_xgb.to_csv('./submission/xgb_submissionNew.csv', index=False)
 
 
 model = RandomForestClassifier(n_estimators=500, max_depth=5, random_state=42)
