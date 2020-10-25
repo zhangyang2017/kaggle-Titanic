@@ -18,6 +18,8 @@ Project duration: 2020/10/21 - 2020/10/23
 
 ## Workflow <a id="2"></a>
 - EDA
+  - Final features:
+  ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
   - some numerical feature (training set)
     - 891 samples, representing 40% (891 in 2224) of passengers boarded the Titanic;
     - survival rate ~ 38% (actual survival rate on Titanic is 32%)
