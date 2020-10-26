@@ -9,43 +9,193 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-from sklearn import tree
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from xgboost import XGBClassifier
-from sklearn.ensemble import VotingClassifier
-from sklearn.pipeline import make_pipeline
-from sklearn.metrics import mean_absolute_error, accuracy_score
-#from sklearn.metrics import classification_report, confusion_matrix
-
-from sklearn.model_selection import GridSearchCV 
-#from sklearn.model_selection import RandomizedSearchCV 
-##########################################################
-
 ## prepping data for training
 train = pd.read_csv('./data/train_final.csv')
 test = pd.read_csv('./data/test_final.csv')
 testids = test['PassengerId'].copy()
 
-
-
 train = train.drop(['PassengerId'], axis = 1)
 test = test.drop(['PassengerId'], axis = 1)
-
 
 y = train['Survived'].copy()
 X = train.drop('Survived', axis = 1)
 
-#X = pd.get_dummies(X,columns=['Pclass', 'age_group', 'Embarked', 'FamilySize'], drop_first=False)
-
 ## split
-train_X, val_X, train_y, val_y = train_test_split(X, y, random_state = 0)
+from sklearn.model_selection import train_test_split
+train_X, val_X, train_y, val_y = train_test_split(X, y, test_size=0.3, random_state = 0)
+
+##1. Naive Bayes
+from sklearn.naive_bayes import GaussianNB
+from sklearn import metrics
+nb = GaussianNB()
+nb.fit(train_X, train_y)
+nb_pred = nb.predict(val_X)
+print('The accuracy of the NaiveBayes is', metrics.accuracy_score(nb_pred, val_y))
+
+##2. Logistic Regression
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression()
+lr.fit(train_X, train_y)
+lr_pred=lr.predict(val_X)
+print('The accuracy of the Logistic Regression is',metrics.accuracy_score(lr_pred, val_y))
+
+##3. KNN
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier() 
+knn.fit(train_X, train_y)
+knn_pred = knn.predict(val_X)
+print('The accuracy of the KNN is', metrics.accuracy_score(knn_pred, val_y))
+
+##check accuracies over n
+a_index = list(range(1,11))
+a = pd.Series()
+x = [0,1,2,3,4,5,6,7,8,9,10]
+for i in a_index:
+    knn = KNeighborsClassifier(n_neighbors=i) 
+    knn.fit(train_X, train_y)
+    knn_pred = knn.predict(val_X)
+    a = a.append(pd.Series(metrics.accuracy_score(knn_pred, val_y)))
+plt.plot(a_index, a)
+plt.xticks(x)
+fig=plt.gcf()
+fig.set_size_inches(12,6)
+plt.show()
+print('Accuracies for different values of n are:',a.values,'with the max value as ',a.values.max())
+
+##4. Decision Tree
+from sklearn.tree import DecisionTreeClassifier
+dt = DecisionTreeClassifier()
+dt.fit(train_X, train_y)
+dt_pred = dt.predict(val_X)
+print('The accuracy of the Decision Tree is', metrics.accuracy_score(dt_pred, val_y))
+
+##5. Random Forest
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(n_estimators=100)
+rf.fit(train_X, train_y)
+rf_pred = rf.predict(val_X)
+print('The accuracy of the Random Forests is', metrics.accuracy_score(rf_pred, val_y))
+
+##6. Linear SVM
+from sklearn import svm
+lsvm = svm.SVC(kernel='linear', C=0.1, gamma=0.1)
+lsvm.fit(train_X, train_y)
+lsvm_pred = lsvm.predict(val_X)
+print('Accuracy for linear SVM is', metrics.accuracy_score(lsvm_pred, val_y))
+
+
+##7. Radial SVM
+rsvm = svm.SVC(kernel='rbf', C=1, gamma=0.1)
+rsvm.fit(train_X, train_y)
+rsvm_pred = rsvm.predict(val_X)
+print('Accuracy for rbf SVM is', metrics.accuracy_score(rsvm_pred, val_y))
+
+## Cross Validation
+## K-fold
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+
+kfold = KFold(n_splits=10, random_state=22, shuffle=True) # k=10, split the data into 10 equal parts
+xyz = []
+accuracy = []
+std = []
+classifiers = ['Naive Bayes', 'Logistic Regression', 'KNN', 'Decision Tree',
+               'Random Forest', 'Linear SVM', 'rbf SVM']
+models = [GaussianNB(), LogisticRegression(), KNeighborsClassifier(n_neighbors=2),
+          DecisionTreeClassifier(), RandomForestClassifier(n_estimators=100),
+          svm.SVC(kernel='linear'), svm.SVC(kernel='rbf')]
+
+for i in models:
+    model = i
+    cv_result = cross_val_score(model, train_X, train_y, cv = kfold, scoring = "accuracy")
+    cv_result = cv_result
+    xyz.append(cv_result.mean())
+    std.append(cv_result.std())
+    accuracy.append(cv_result)
+new_models_df = pd.DataFrame({'CV Mean':xyz,'Std':std}, index=classifiers)       
+new_models_df
+
+plt.subplots(figsize=(12,6))
+box=pd.DataFrame(accuracy,index=[classifiers])
+box.T.boxplot()
+
+new_models_df['CV Mean'].plot.barh(width=0.8)
+plt.title('Average CV Mean Accuracy')
+fig=plt.gcf()
+fig.set_size_inches(8,5)
+plt.show()
+
+
+## Confusion Matrix
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_val_predict
+#from sklearn.metrics import ConfusionMatrixDisplay
+
+f,ax = plt.subplots(3, 3, figsize=(12,10))
+#sns.set_palette(sns.color_palette("Set3"))
+
+y_pred = cross_val_predict(GaussianNB(), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax = ax[0,0], 
+            cmap = 'Set3', annot=True, fmt='2.0f')
+ax[0,0].set_title('Naive Bayes')
+
+y_pred = cross_val_predict(LogisticRegression(), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[0,1], 
+            cmap = 'Set3', annot=True, fmt='2.0f')
+ax[0,1].set_title('Logistic Regression')
+
+y_pred = cross_val_predict(KNeighborsClassifier(n_neighbors=2), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[0,2], 
+            cmap = 'Set3', annot=True, fmt='2.0f')
+ax[0,2].set_title('KNN')
+
+y_pred = cross_val_predict(DecisionTreeClassifier(), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,0], 
+            cmap = 'Set3', annot=True,fmt='2.0f')
+ax[1,0].set_title('Decision Tree')
+
+y_pred = cross_val_predict(RandomForestClassifier(n_estimators=100), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,1], 
+            cmap = 'Set3', annot=True, fmt='2.0f')
+ax[1,1].set_title('Random Forests')
+
+y_pred = cross_val_predict(svm.SVC(kernel='linear'), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred), ax=ax[1,2], 
+            cmap = 'Set3', annot=True,fmt='2.0f')
+ax[1,2].set_title('Linear SVM')
+
+y_pred = cross_val_predict(svm.SVC(kernel='rbf'), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred), ax=ax[2,0],
+            cmap = 'Set3', annot=True, fmt='2.0f')
+ax[2,0].set_title('rbf SVM')
+
+plt.subplots_adjust(hspace=0.2,wspace=0.2)
+ax[2,1].remove()
+ax[2,2].remove()
+plt.show()
+
+
+
+
+from sklearn import tree
+
+from sklearn.preprocessing import StandardScaler
+
+
+from xgboost import XGBClassifier
+from sklearn.ensemble import VotingClassifier
+#from sklearn.pipeline import make_pipeline
+from sklearn.metrics import mean_absolute_error, accuracy_score
+#from sklearn.metrics import classification_report
+
+from sklearn.model_selection import GridSearchCV 
+#from sklearn.model_selection import RandomizedSearchCV 
+##########################################################
+
+
+
+
+
 
 #creating trial RFC model
 model_try = RandomForestClassifier(n_estimators=400, max_depth=5, random_state=42)
