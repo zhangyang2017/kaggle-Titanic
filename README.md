@@ -44,6 +44,8 @@ Project duration: 2020/10/21 - 2020/10/23
 - Model training
   - the idea of **benchmark**
 - Model validation
+  - basic models
+    ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix.png)
 - prediction
 
 ## Afterthoughts <a id="3"></a>
