@@ -32,14 +32,21 @@ nb.fit(train_X, train_y)
 nb_pred = nb.predict(val_X)
 print('The accuracy of the NaiveBayes is', metrics.accuracy_score(nb_pred, val_y))
 
-##2. Logistic Regression
+##2. Perceptron
+from sklearn.linear_model import Perceptron
+pct = Perceptron(class_weight='balanced')
+pct.fit(train_X, train_y)
+pct_pred = pct.predict(val_X)
+print('Accuracy for Perceptron is', metrics.accuracy_score(pct_pred, val_y))
+
+##3. Logistic Regression
 from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression()
 lr.fit(train_X, train_y)
 lr_pred=lr.predict(val_X)
 print('The accuracy of the Logistic Regression is',metrics.accuracy_score(lr_pred, val_y))
 
-##3. KNN
+##4. KNN
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier() 
 knn.fit(train_X, train_y)
@@ -62,21 +69,21 @@ fig.set_size_inches(12,6)
 plt.show()
 print('Accuracies for different values of n are:',a.values,'with the max value as ',a.values.max())
 
-##4. Decision Tree
+##5. Decision Tree
 from sklearn.tree import DecisionTreeClassifier
 dt = DecisionTreeClassifier()
 dt.fit(train_X, train_y)
 dt_pred = dt.predict(val_X)
 print('The accuracy of the Decision Tree is', metrics.accuracy_score(dt_pred, val_y))
 
-##5. Random Forest
+##6. Random Forest
 from sklearn.ensemble import RandomForestClassifier
 rf = RandomForestClassifier(n_estimators=100)
 rf.fit(train_X, train_y)
 rf_pred = rf.predict(val_X)
 print('The accuracy of the Random Forests is', metrics.accuracy_score(rf_pred, val_y))
 
-##6. Linear SVM
+##7. Linear SVM
 from sklearn import svm
 lsvm = svm.SVC(kernel='linear', C=0.1, gamma=0.1)
 lsvm.fit(train_X, train_y)
@@ -84,11 +91,12 @@ lsvm_pred = lsvm.predict(val_X)
 print('Accuracy for linear SVM is', metrics.accuracy_score(lsvm_pred, val_y))
 
 
-##7. Radial SVM
+##8. Radial SVM
 rsvm = svm.SVC(kernel='rbf', C=1, gamma=0.1)
 rsvm.fit(train_X, train_y)
 rsvm_pred = rsvm.predict(val_X)
 print('Accuracy for rbf SVM is', metrics.accuracy_score(rsvm_pred, val_y))
+
 
 ## Cross Validation
 ## K-fold
@@ -99,9 +107,9 @@ kfold = KFold(n_splits=10, random_state=22, shuffle=True) # k=10, split the data
 xyz = []
 accuracy = []
 std = []
-classifiers = ['Naive Bayes', 'Logistic Regression', 'KNN', 'Decision Tree',
+classifiers = ['Naive Bayes', 'Perceptron', 'Logistic Regression', 'KNN', 
                'Random Forest', 'Linear SVM', 'rbf SVM']
-models = [GaussianNB(), LogisticRegression(), KNeighborsClassifier(n_neighbors=2),
+models = [GaussianNB(), Perceptron(), LogisticRegression(), KNeighborsClassifier(n_neighbors=2),
           DecisionTreeClassifier(), RandomForestClassifier(n_estimators=100),
           svm.SVC(kernel='linear'), svm.SVC(kernel='rbf')]
 
@@ -131,47 +139,64 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_val_predict
 #from sklearn.metrics import ConfusionMatrixDisplay
 
-f,ax = plt.subplots(3, 3, figsize=(12,10))
-#sns.set_palette(sns.color_palette("Set3"))
+f,ax = plt.subplots(nrows=3, ncols=3, 
+                    sharex=True, sharey=True,
+                    figsize=(12,10))
+f.suptitle("Confusion Matrix", fontsize=16, fontweight='bold')
+f.text(0.5, 0.06, 'True Class', ha='center', color='red', fontsize = 16)
+f.text(0.06, 0.5, 'Predicted Class', va='center',
+       fontsize = 16, color='red', rotation='vertical')
 
 y_pred = cross_val_predict(GaussianNB(), X, y, cv=10)
 sns.heatmap(confusion_matrix(y, y_pred),ax = ax[0,0], 
             cmap = 'Set3', annot=True, fmt='2.0f')
 ax[0,0].set_title('Naive Bayes')
 
-y_pred = cross_val_predict(LogisticRegression(), X, y, cv=10)
-sns.heatmap(confusion_matrix(y, y_pred),ax=ax[0,1], 
+y_pred = cross_val_predict(Perceptron(), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax = ax[0,1], 
             cmap = 'Set3', annot=True, fmt='2.0f')
-ax[0,1].set_title('Logistic Regression')
+ax[0,1].set_title('Perceptron')
 
-y_pred = cross_val_predict(KNeighborsClassifier(n_neighbors=2), X, y, cv=10)
+y_pred = cross_val_predict(LogisticRegression(), X, y, cv=10)
 sns.heatmap(confusion_matrix(y, y_pred),ax=ax[0,2], 
             cmap = 'Set3', annot=True, fmt='2.0f')
-ax[0,2].set_title('KNN')
+ax[0,2].set_title('Logistic Regression')
+
+y_pred = cross_val_predict(KNeighborsClassifier(n_neighbors=2), X, y, cv=10)
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,0], 
+            cmap = 'Set3', annot=True, fmt='2.0f')
+ax[1,0].set_title('KNN')
 
 y_pred = cross_val_predict(DecisionTreeClassifier(), X, y, cv=10)
-sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,0], 
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,1], 
             cmap = 'Set3', annot=True,fmt='2.0f')
-ax[1,0].set_title('Decision Tree')
+ax[1,1].set_title('Decision Tree')
 
 y_pred = cross_val_predict(RandomForestClassifier(n_estimators=100), X, y, cv=10)
-sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,1], 
+sns.heatmap(confusion_matrix(y, y_pred),ax=ax[1,2], 
             cmap = 'Set3', annot=True, fmt='2.0f')
-ax[1,1].set_title('Random Forests')
+ax[1,2].set_title('Random Forests')
 
 y_pred = cross_val_predict(svm.SVC(kernel='linear'), X, y, cv=10)
-sns.heatmap(confusion_matrix(y, y_pred), ax=ax[1,2], 
+sns.heatmap(confusion_matrix(y, y_pred), ax=ax[2,0], 
             cmap = 'Set3', annot=True,fmt='2.0f')
-ax[1,2].set_title('Linear SVM')
+ax[2,0].set_title('Linear SVM')
 
 y_pred = cross_val_predict(svm.SVC(kernel='rbf'), X, y, cv=10)
-sns.heatmap(confusion_matrix(y, y_pred), ax=ax[2,0],
+sns.heatmap(confusion_matrix(y, y_pred), ax=ax[2,1],
             cmap = 'Set3', annot=True, fmt='2.0f')
-ax[2,0].set_title('rbf SVM')
+ax[2,1].set_title('rbf SVM')
 
 plt.subplots_adjust(hspace=0.2,wspace=0.2)
-ax[2,1].remove()
+f.subplots_adjust(top=0.92)
 ax[2,2].remove()
+
+#plt.setp(ax[-1, :], ylabel='Predicted Class')
+
+#plt.xlabel("True Class", fontsize = 15, labelpad = 15)
+#plt.ylabel("Predicted Class", fontsize = 15, labelpad = 15)
+
+#plt.savefig('./figures/basicModelconfusionMatrix.png', dpi=300)
 plt.show()
 
 
