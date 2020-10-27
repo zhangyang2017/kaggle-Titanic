@@ -44,14 +44,14 @@ Project duration: 2020/10/21 - 2020/10/23
     - Feature engineering
     - Drop not-so-useful features
 - Model training
-  1. base classifiers I trained
-    - naive bayes
-    - logistic regression
-    - KNN
-    - decision tree
-    - random forests
-    - linear SVM
-    - rbf SVM
+  1. base classifiers and accuracy within training set from worst to best:
+    - [0.7388] naive bayes
+    - [0.7873] linear SVM
+    - [0.7910] KNN
+    - [0.8097] rbf SVM
+    - [0.8134] logistic regression
+    - [0.8396] decision tree
+    - [0.8507] random forests 
   2. cross validation and confusion matrix
     ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix2.png)
     **Figure 2. Confusion Matrix. Seems like Naive Bayes was very good at predicting survivors, whereas KNN was very good at predicting non-survivors.**
