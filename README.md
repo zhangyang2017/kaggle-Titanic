@@ -29,6 +29,7 @@ Project duration: 2020/10/21 - 2020/10/23
     - `histogram` `correlation heatmap` `kernal density estimation plot` to confirm assumptions
     - which features might contribute significantly to the model
       ![after some feature engineering](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/all_fetures.png)
+      *Figure 1. Feature used in model training.*
   - data wrangling
     - missing data imputation
       - This is the part where I can be creative. I was inspired by [this notebook][2] that instead of filling missing values with mean, median or mode, I can try a few more things. For example, I have two missing values under `Embarked` feature. Both of them paid 80$ for their first class tickets.
@@ -38,7 +39,6 @@ Project duration: 2020/10/21 - 2020/10/23
       ![temp](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp.jpg)
         Using visualization, I can actually see that at C, the median Fair people paid for first class ticket is closer to 80. So replacing the two missing values with 'C' seems a reasonable guess. And a lot more fun :stuck_out_tongue:.
       ![temp2](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/temp2.jpg)
-      *image_caption*
     - `Age` feature had a lot more missing values. I never thought I can actually build a model to predict those values on other features such as titles and how much they paid for their tickets. Is it guaranteed more accurate than just replacing with mean? Probably not, but very cool!
     - Feature engineering
     - Drop not-so-useful features
