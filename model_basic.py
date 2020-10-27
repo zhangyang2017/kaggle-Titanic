@@ -191,14 +191,145 @@ plt.subplots_adjust(hspace=0.2,wspace=0.2)
 f.subplots_adjust(top=0.92)
 ax[2,2].remove()
 
-#plt.setp(ax[-1, :], ylabel='Predicted Class')
-
-#plt.xlabel("True Class", fontsize = 15, labelpad = 15)
-#plt.ylabel("Predicted Class", fontsize = 15, labelpad = 15)
-
-#plt.savefig('./figures/basicModelconfusionMatrix.png', dpi=300)
+plt.savefig('./figures/basicModelconfusionMatrix2.png', dpi=300)
 plt.show()
 
+
+#Hyper-parameter tuning
+from sklearn.model_selection import GridSearchCV
+
+##random forest
+n_estimators = range(100,1000,100)
+hyper = {'n_estimators': n_estimators}
+gd = GridSearchCV(estimator = RandomForestClassifier(random_state=0),
+                  param_grid = hyper, verbose=True)
+gd.fit(X,y)
+print(gd.best_score_)
+print(gd.best_estimator_)
+### best score 0.81596, n_estimators=900
+
+##SVM
+C = [0.05,0.1,0.2,0.3,0.25,0.4,0.5,0.6,0.7,0.8,0.9,1]
+gamma = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+kernel = ['rbf','linear']
+hyper = {'kernel':kernel,
+         'C':C,
+         'gamma':gamma}
+gd = GridSearchCV(estimator=svm.SVC(),
+                  param_grid=hyper,
+                  verbose=True)
+gd.fit(X,y)
+print(gd.best_score_)
+print(gd.best_estimator_)
+### best score 0.82376, C = 0.4, gamma = 0.2
+
+
+#Ensemble classifiers
+### voting: soft
+from sklearn.ensemble import VotingClassifier
+ensemble_lin_rbf = VotingClassifier(
+    estimators=[('NB',GaussianNB()),
+                ('LR',LogisticRegression(C=0.05)),
+                ('KNN',KNeighborsClassifier(n_neighbors=2)),
+                ('DT',DecisionTreeClassifier(random_state=0)),
+                ('RFor',RandomForestClassifier(n_estimators=500,random_state=0)),
+                ('RBF',svm.SVC(probability=True,kernel='rbf',C=0.5,gamma=0.1)),
+                ('svm',svm.SVC(kernel='linear',probability=True))], voting='soft').fit(train_X,train_y)
+
+print('The accuracy for ensembled model is:',ensemble_lin_rbf.score(val_X, val_y))
+cross=cross_val_score(ensemble_lin_rbf, X, y, cv = 10,scoring = "accuracy")
+print('The cross validated score is',cross.mean())
+
+## bagging
+from sklearn.ensemble import BaggingClassifier
+### bagged KNN
+model = BaggingClassifier(base_estimator = KNeighborsClassifier(n_neighbors=2),
+                          random_state=0, n_estimators=700)
+model.fit(train_X,train_y)
+prediction=model.predict(val_X)
+print('The accuracy for bagged KNN is:',metrics.accuracy_score(prediction, val_y))
+result = cross_val_score(model, X, y, cv=10, scoring='accuracy')
+print('The cross validated score for bagged KNN is:', result.mean())
+
+### bagged logistic regression (slow)
+model = BaggingClassifier(base_estimator = LogisticRegression(),
+                          random_state=0, n_estimators=700)
+model.fit(train_X,train_y)
+prediction=model.predict(val_X)
+print('The accuracy for bagged logistic regression is:',metrics.accuracy_score(prediction, val_y))
+result = cross_val_score(model, X, y, cv=10, scoring='accuracy')
+print('The cross validated score for bagged logistic regression is:', result.mean())
+
+
+### bagged decision tree
+model = BaggingClassifier(base_estimator=DecisionTreeClassifier(),
+                          random_state=0,n_estimators=100)
+model.fit(train_X,train_y)
+prediction=model.predict(val_X)
+print('The accuracy for bagged Decision Tree is:', metrics.accuracy_score(prediction, val_y))
+result=cross_val_score(model, X, y, cv=10, scoring='accuracy')
+print('The cross validated score for bagged Decision Tree is:',result.mean())
+
+## boosting
+
+### AdaBoost (adaptive boosting)
+from sklearn.ensemble import AdaBoostClassifier
+
+### decision tree boosting
+ada = AdaBoostClassifier(n_estimators=200,
+                       random_state=0,
+                       learning_rate=0.1)
+result = cross_val_score(ada, X, y, cv=10, scoring='accuracy')
+print('The cross validated score for AdaBoost is:',result.mean())
+
+## Stochastic gradient boosting
+from sklearn.ensemble import GradientBoostingClassifier
+grad = GradientBoostingClassifier(n_estimators=500,
+                                  random_state=0,
+                                  learning_rate=0.1)
+result = cross_val_score(grad, X, y, cv=10, scoring='accuracy')
+print('The cross validated score for Gradient Boosting is:', result.mean())
+
+### XGBoost
+import xgboost as xg
+xgboost = xg.XGBClassifier(n_estimators=900,
+                           learning_rate=0.1)
+result = cross_val_score(xgboost, X, y, cv=10, scoring='accuracy')
+print('The cross validated score for XGBoost is:',result.mean())
+
+##hyperparameter tuning for AdaBoost
+n_estimators=list(range(100,1100,100))
+learn_rate=[0.05,0.1,0.2,0.3,0.25,0.4,0.5,0.6,0.7,0.8,0.9,1]
+hyper={'n_estimators':n_estimators,'learning_rate':learn_rate}
+gd=GridSearchCV(estimator=AdaBoostClassifier(),param_grid=hyper,verbose=True)
+gd.fit(X,y)
+print(gd.best_score_)
+print(gd.best_estimator_)
+
+ada=AdaBoostClassifier(n_estimators=500,random_state=0,learning_rate=0.05)
+result=cross_val_predict(ada,X,y,cv=10)
+sns.heatmap(confusion_matrix(y,result),cmap='winter',annot=True,fmt='2.0f')
+plt.show()
+
+## Feature importance
+f,ax=plt.subplots(2,2,figsize=(15,12))
+model=RandomForestClassifier(n_estimators=500,random_state=0)
+model.fit(X,y)
+pd.Series(model.feature_importances_,X.columns).sort_values(ascending=True).plot.barh(width=0.8,ax=ax[0,0])
+ax[0,0].set_title('Feature Importance in Random Forests')
+model=AdaBoostClassifier(n_estimators=200,learning_rate=0.05,random_state=0)
+model.fit(X,y)
+pd.Series(model.feature_importances_,X.columns).sort_values(ascending=True).plot.barh(width=0.8,ax=ax[0,1],color='#ddff11')
+ax[0,1].set_title('Feature Importance in AdaBoost')
+model=GradientBoostingClassifier(n_estimators=500,learning_rate=0.1,random_state=0)
+model.fit(X,y)
+pd.Series(model.feature_importances_,X.columns).sort_values(ascending=True).plot.barh(width=0.8,ax=ax[1,0],cmap='RdYlGn_r')
+ax[1,0].set_title('Feature Importance in Gradient Boosting')
+model=xg.XGBClassifier(n_estimators=900,learning_rate=0.1)
+model.fit(X,y)
+pd.Series(model.feature_importances_,X.columns).sort_values(ascending=True).plot.barh(width=0.8,ax=ax[1,1],color='#FD0F00')
+ax[1,1].set_title('Feature Importance in XgBoost')
+plt.show()
 
 
 
@@ -208,14 +339,13 @@ from sklearn.preprocessing import StandardScaler
 
 
 from xgboost import XGBClassifier
-from sklearn.ensemble import VotingClassifier
+
 #from sklearn.pipeline import make_pipeline
 from sklearn.metrics import mean_absolute_error, accuracy_score
 #from sklearn.metrics import classification_report
 
-from sklearn.model_selection import GridSearchCV 
-#from sklearn.model_selection import RandomizedSearchCV 
-##########################################################
+ 
+
 
 
 
