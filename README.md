@@ -44,17 +44,16 @@ Project duration: 2020/10/21 - 2020/10/23
     - Feature engineering
     - Drop not-so-useful features
 - Model training
-  1. baseline classifiers performance with 5 fold cross validation and default parameters:
   
-  |      Classifier     |  Baseline  | 
-  |---------------------|:----------:|
-  | naive bayes         |   0.7388   |
-  | linear SVM          |   0.7873   |
-  | KNN                 |   0.7910   |
-  | rbf SVM             |   0.8097   |
-  | logistic regression |   0.8134   |
-  | decision tree       |   0.8396   |
-  | random forests      |   0.8507   |
+  |      Classifier     |  Baseline  |  Tuned |
+  |---------------------|:----------:| ------:|
+  | naive bayes         |   0.7388   | NA     |
+  | linear SVM          |   0.7873   | NA     |
+  | KNN                 |   0.7910   | 0.8134 |
+  | rbf SVM             |   0.8097   | 0.8097 |
+  | logistic regression |   0.8134   | 0.8059 |
+  | decision tree       |   0.8396   | 0.7873 |
+  | random forests      |   0.8507   | 0.8396 |
 
   2. cross validation and confusion matrix
     ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix2.png)
