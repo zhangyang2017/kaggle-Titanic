@@ -20,7 +20,7 @@ Project duration: 2020/10/21 - 2020/10/23
 - EDA
   - Final features:
   ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
-     .center[.caption[**Fig. 1:** Image caption]]
+     **Figure 1: Features used in model training.**
 
   - some numerical feature (training set)
     - 891 samples, representing 40% (891 in 2224) of passengers boarded the Titanic;
@@ -44,7 +44,6 @@ Project duration: 2020/10/21 - 2020/10/23
     - Feature engineering
     - Drop not-so-useful features
 - Model training
-  - the idea of **benchmark**
   1. base classifiers I trained
     - naive bayes
     - logistic regression
@@ -55,6 +54,7 @@ Project duration: 2020/10/21 - 2020/10/23
     - rbf SVM
   2. cross validation and confusion matrix
     ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix2.png)
+    **Figure 2. Confusion Matrix. Seems like Naive Bayes was very good at predicting survivors, whereas KNN was very good at predicting non-survivors.**
   3. to improve a couple classifiers with best performance
     - ensemble methods
     - hyperparameter tuning
@@ -64,6 +64,7 @@ Project duration: 2020/10/21 - 2020/10/23
     - confusion matrix
 
 ## Afterthoughts <a id="3"></a>
+- the idea of **benchmark**
 https://matloff.wordpress.com/2015/09/29/unbalanced-data-is-a-problem-no-balanced-data-is-worse/
 https://elitedatascience.com/imbalanced-classes
 https://towardsdatascience.com/what-to-do-when-your-classification-dataset-is-imbalanced-6af031b12a36
