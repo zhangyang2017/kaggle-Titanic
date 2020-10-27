@@ -20,7 +20,7 @@ Project duration: 2020/10/21 - 2020/10/23
 - EDA
   - Final features:
   ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
-     <center>**Figure 1. Feature used in model training.**</center>
+     .center[.caption[**Fig. 1:** Image caption]]
 
   - some numerical feature (training set)
     - 891 samples, representing 40% (891 in 2224) of passengers boarded the Titanic;
