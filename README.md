@@ -45,6 +45,7 @@ Project duration: 2020/10/21 - 2020/10/23
     - Drop not-so-useful features
 - Model training
   1. baseline classifiers performance with 5 fold cross validation and default parameters:
+  
   |      Classifier     |  Baseline  | 
   |---------------------|:----------:|
   | naive bayes         |   0.7388   |
