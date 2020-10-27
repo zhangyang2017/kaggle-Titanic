@@ -43,10 +43,23 @@ Project duration: 2020/10/21 - 2020/10/23
     - Drop not-so-useful features
 - Model training
   - the idea of **benchmark**
-- Model validation
-  - basic models
+  1. base classifiers I trained
+    - naive bayes
+    - logistic regression
+    - KNN
+    - decision tree
+    - random forests
+    - linear SVM
+    - rbf SVM
+  2. cross validation and confusion matrix
     ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix2.png)
-- prediction
+  3. to improve a couple classifiers with best performance
+    - ensemble methods
+    - hyperparameter tuning
+    - confusion matrix and cross validation
+    - feature importance for each classifier
+  4. best model
+    - confusion matrix
 
 ## Afterthoughts <a id="3"></a>
 https://matloff.wordpress.com/2015/09/29/unbalanced-data-is-a-problem-no-balanced-data-is-worse/
