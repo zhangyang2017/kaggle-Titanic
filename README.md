@@ -37,6 +37,7 @@ Project duration: 2020/10/21 - 2020/10/23
      **Figure 1: Features used in model training.**
      
 - Model training
+  - Base classifier benchmark, k-fold cross validation, and hyperparameter tuning.
   
   | Classifier Accuracy |  Baseline  |  10-fold Stratified Cross Validation | Hyperparameter Tuned |
   |---------------------|:----------:|:------------------------------------:|:--------------------:|
@@ -48,6 +49,7 @@ Project duration: 2020/10/21 - 2020/10/23
   | logistic regression |   0.8134   | 0.7991                               |0.8036                |
   | decision tree       |   0.8396   | 0.8093                               |0.8093                |
   | random forests      |   0.8545   | 0.8126                               |0.8250                |
+**Table 1. Accuracy stats.**
 
   2. cross validation and confusion matrix
     ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix2.png)
