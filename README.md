@@ -18,25 +18,25 @@ Project duration: 2020/10/21 - 2020/10/23
 
 ## Workflow <a id="2"></a>
 - EDA
-  - Final features:
-  ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
-     **Figure 1: Features used in model training.**
-
   - some numerical feature (training set)
     - 891 samples, representing 40% (891 in 2224) of passengers boarded the Titanic;
     - survival rate ~ 38% (actual survival rate on Titanic is 32%)
     - the majority of passengers traveled alone (~75%)
-  - data visualization, feature relationship exploration
-    - `pivot tables` for quick assumptions
-    - `histogram` `correlation heatmap` `kernal density estimation plot` to confirm assumptions
-    - which features might contribute significantly to the model
-      ![after some feature engineering](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/all_fetures.png)
   - data wrangling
     - missing data imputation
       - This is the part where I can be creative. I was inspired by [this notebook][2] that instead of filling missing values with mean, median or mode, I can try a few more things. 
     - `Age` feature had a lot more missing values. I never thought I can actually build a model to predict those values on other features such as titles and how much they paid for their tickets. Is it guaranteed more accurate than just replacing with mean? Probably not, but very cool!
     - Feature engineering
     - Drop not-so-useful features
+  - data visualization, feature relationship exploration
+    - `pivot tables` for quick assumptions
+    - `histogram` `correlation heatmap` `kernal density estimation plot` to confirm assumptions
+    - which features might contribute significantly to the model
+      ![after some feature engineering](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/all_fetures.png)
+  - Final features:
+  ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
+     **Figure 1: Features used in model training.**
+     
 - Model training
   
   | Classifier Accuracy |  Baseline  |  10-fold Stratified Cross Validation | Hyperparameter Tuned |
