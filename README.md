@@ -53,11 +53,10 @@ Project duration: 2020/10/21 - 2020/10/23
   ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix.png)
 **Figure 2. Confusion Matrix for base classifiers. Seems like Naive Bayes was very good at predicting survivors, whereas KNN was very good at predicting non-survivors.**
 
-  3. to improve a couple classifiers with best performance
-    - ensemble methods
-    - hyperparameter tuning
-    - confusion matrix and cross validation
-    - feature importance for each classifier
+  ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/featureImportance.png)
+**Figure 3. Feature importance plots for final classifiers.**
+
+
   4. best model
     - confusion matrix
 
