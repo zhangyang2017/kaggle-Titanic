@@ -66,11 +66,12 @@ Project duration: 2020/10/21 - 2020/10/23
 
 ## Afterthoughts <a id="3"></a>
 - the idea of **benchmark**
-https://matloff.wordpress.com/2015/09/29/unbalanced-data-is-a-problem-no-balanced-data-is-worse/
-https://elitedatascience.com/imbalanced-classes
-https://towardsdatascience.com/what-to-do-when-your-classification-dataset-is-imbalanced-6af031b12a36
-https://sebastianraschka.com/faq/docs/scale-training-test.html
-https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/43453
+- thoughts on data imbalance
+  - https://matloff.wordpress.com/2015/09/29/unbalanced-data-is-a-problem-no-balanced-data-is-worse/
+  - https://elitedatascience.com/imbalanced-classes
+  - https://towardsdatascience.com/what-to-do-when-your-classification-dataset-is-imbalanced-6af031b12a36
+  - https://sebastianraschka.com/faq/docs/scale-training-test.html
+  - https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/43453
 
 ## Resources <a id="4"></a>
 
@@ -87,7 +88,5 @@ https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/43453
 ## Other interesting posts <a id="5"></a>
 
 1. [Kaggle dataset extended with Wikipedia](https://www.kaggle.com/pavlofesenko/extending-titanic-dataset-using-wikipedia) by Pavlo Fesenko.
-
-https://www.kaggle.com/goldens/classification-review-with-python
-https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic
-https://elitedatascience.com/machine-learning-algorithms
+2. https://www.kaggle.com/goldens/classification-review-with-python
+3. https://elitedatascience.com/machine-learning-algorithms
