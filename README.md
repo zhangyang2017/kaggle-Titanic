@@ -32,7 +32,6 @@ Project duration: 2020/10/21 - 2020/10/23
     - `pivot tables` for quick assumptions
     - `histogram` `correlation heatmap` `kernal density estimation plot` to confirm assumptions
     - which features might contribute significantly to the model
-      ![after some feature engineering](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/all_fetures.png)
   - Final features:
   ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
      **Figure 1: Features used in model training.**
