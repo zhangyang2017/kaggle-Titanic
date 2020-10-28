@@ -82,18 +82,12 @@ https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/43453
 2. [A Statistical Analysis & ML workflow of Titanic](https://www.kaggle.com/masumrumi/a-statistical-analysis-ml-workflow-of-titanic#Part-3.-Visualization-and-Feature-Relations) by Masum Rumi
 3. [Titanic Project Example Walk Through](https://www.kaggle.com/kenjee/titanic-project-example/comments) by Ken Jee
 4. [EDA To Prediction (DieTanic)](https://www.kaggle.com/ash316/eda-to-prediction-dietanic) by Ashwini Swain
+5. [Predicting the Survival of Titanic Passengers](https://towardsdatascience.com/predicting-the-survival-of-titanic-passengers-30870ccc7e8) by Niklas Donges
 
+## Other interesting posts <a id="5"></a>
 
-
+1. [Kaggle dataset extended with Wikipedia](https://www.kaggle.com/pavlofesenko/extending-titanic-dataset-using-wikipedia) by Pavlo Fesenko.
 
 https://www.kaggle.com/goldens/classification-review-with-python
-
 https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic
-https://www.kaggle.com/pavlofesenko/extending-titanic-dataset-using-wikipedia
-https://towardsdatascience.com/predicting-the-survival-of-titanic-passengers-30870ccc7e8
 https://elitedatascience.com/machine-learning-algorithms
-https://www.kaggle.com/jirakst/titanic-auc-92
-https://medium.com/i-like-big-data-and-i-cannot-lie/how-i-scored-in-the-top-9-of-kaggles-titanic-machine-learning-challenge-243b5f45c8e9
-
-
-
