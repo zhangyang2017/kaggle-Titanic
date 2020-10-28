@@ -45,8 +45,8 @@ Project duration: 2020/10/21 - 2020/10/23
     - Drop not-so-useful features
 - Model training
   
-  |      Classifier     |  Baseline  |  10-fold Stratified Cross Validation | Hyperparameter Tuned Top Classifiers |
-  |---------------------|:----------:|:------------------------------------:|---------------------:|
+  | Classifier Accuracy |  Baseline  |  10-fold Stratified Cross Validation | Hyperparameter Tuned |
+  |---------------------|:----------:|:------------------------------------:|:--------------------:|
   | naive bayes         |   0.7388   | 0.7665                               |NA                    |
   | Perceptron          |   0.7910   | 0.7227                               |NA                    |
   | linear SVM          |   0.7873   | 0.7834                               |NA                    |
