@@ -57,12 +57,12 @@ Project duration: 2020/10/21 - 2020/10/23
 **Figure 3. Feature importance plots for final classifiers.**
 
 - Submission scores
-  |         Model       |    Score    |  
-  |---------------------|:-----------:| 
-  | AdaBoost            |   0.78468   | 
-  | logistic regression |   0.76555   | 
-  | decision tree       |      | 
-  | random forests      |   0.75837   | 
+  |          Model        |    Score    |  
+  |-----------------------|:-----------:| 
+  | AdaBoost              |   0.78468   | 
+  |Voting (soft, weighted)|   0.77511   |
+  | logistic regression   |   0.76555   | 
+  | random forests        |   0.75837   | 
 
 ## Afterthoughts <a id="3"></a>
 - the idea of **benchmark**
