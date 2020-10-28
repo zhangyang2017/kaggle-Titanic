@@ -36,7 +36,7 @@ Project duration: 2020/10/21 - 2020/10/23
   ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/allFeatures.png)
      **Figure 1: Features used in model training.**
      
-- Model training
+- Model summary
   
   | Classifier Accuracy |  Baseline  |  10-fold Stratified Cross Validation | Hyperparameter Tuned |
   |---------------------|:----------:|:------------------------------------:|:--------------------:|
@@ -50,9 +50,9 @@ Project duration: 2020/10/21 - 2020/10/23
   | random forests      |   0.8545   | 0.8126                               |0.8250                |
 **Table 1. Accuracy stats for base classifier benchmark, after k-fold cross validation, and after hyperparameter tuning for the top classifiers.**
 
-  2. cross validation and confusion matrix
-    ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix2.png)
-    **Figure 2. Confusion Matrix. Seems like Naive Bayes was very good at predicting survivors, whereas KNN was very good at predicting non-survivors.**
+  ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/basicModelconfusionMatrix.png)
+**Figure 2. Confusion Matrix for base classifiers. Seems like Naive Bayes was very good at predicting survivors, whereas KNN was very good at predicting non-survivors.**
+
   3. to improve a couple classifiers with best performance
     - ensemble methods
     - hyperparameter tuning
