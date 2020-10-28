@@ -56,9 +56,13 @@ Project duration: 2020/10/21 - 2020/10/23
   ![](https://github.com/zhangyang2017/kaggle-Titanic/blob/master/figures/featureImportance.png)
 **Figure 3. Feature importance plots for final classifiers.**
 
-
-  4. best model
-    - confusion matrix
+- Submission scores
+  |         Model       |    Score    |  
+  |---------------------|:-----------:| 
+  | AdaBoost            |   0.78468   | 
+  | logistic regression |   0.76555   | 
+  | decision tree       |      | 
+  | random forests      |   0.75837   | 
 
 ## Afterthoughts <a id="3"></a>
 - the idea of **benchmark**
